@@ -1,0 +1,59 @@
+---
+id: order-actions
+version: '1.0'
+specVersion: '0.8'
+name: Order Workflow
+description: Order Workflow Sample
+start: Order Received
+errors:
+  - name: Unauthorized error
+    code: '401'
+    description: Unauthorized error received
+functions:
+  - name: printMessage
+    type: custom
+    operation: sysout
+  - name: sendOrder
+    operation: specs/supplier.yaml#sendOrder
+    type: rest
+  - name: cancelOrder
+    operation: specs/supplier.yaml#cancelOrder
+    type: rest
+states:
+  - name: Order Received
+    type: operation
+    actions:
+      - name: sendOrderRestCall
+        functionRef:
+          refName: sendOrder
+          arguments:
+            supplier-id: .supplierId
+            content: .orderId
+        actionDataFilter:
+          toStateData: .firstCall
+      - name: cancelOrderRestCall
+        functionRef:
+          refName: cancelOrder
+          arguments:
+            supplier-id: .supplierId
+            content: .orderId
+        actionDataFilter:
+          toStateData: .secondCall
+      - name: printAction
+        functionRef:
+          refName: printMessage
+          arguments:
+            "message": "${.output}"
+    onErrors:
+      - errorRef: Unauthorized error
+        transition: finish
+    transition: finish
+  - name: finish
+    type: operation
+    actions:
+      - name: printAction
+        functionRef:
+          refName: printMessage
+          arguments:
+            "message": "Final State"
+    end: true

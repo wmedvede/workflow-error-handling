@@ -1,0 +1,53 @@
+---
+openapi: 3.0.3
+info:
+  title: Generated API
+  version: "1.0"
+paths:
+  /:
+    post:
+      operationId: doOperation
+      parameters:
+        - in: header
+          name: notUsed
+          schema:
+            type: string
+          required: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPnrRemarkRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResponse"
+components:
+  schemas:
+    AddPnrRemarkRequest:
+      type: object
+      properties:
+        RecordLocator:
+          type: string
+        computedRecordLocator:
+          type: string
+        freeText:
+          type: string
+        passengerTattoo:
+          type: string
+        segmentTattoo:
+          type: string
+    ActionResponse:
+      type: object
+      properties:
+        description:
+          type: string
+        params:
+          type: object
+          additionalProperties:
+            type: string
+        statusCode:
+          type: integer
