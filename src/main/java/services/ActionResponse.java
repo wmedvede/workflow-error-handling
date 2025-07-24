@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@JsonInclude(Include.NON_DEFAULT)
+//@JsonInclude(Include.NON_DEFAULT)
 public final class ActionResponse {
   private int statusCode;
   private String description;
@@ -28,6 +28,22 @@ public final class ActionResponse {
 
   public String getDescription() {
     return this.description;
+  }
+
+  public int getStatusCode() {
+    return statusCode;
+  }
+
+  public void setStatusCode(int statusCode) {
+    this.statusCode = statusCode;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public void setErrors(List<ErrorResponse> errors) {
+    this.errors = errors;
   }
 
   public String toString() {

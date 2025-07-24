@@ -56,10 +56,21 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy</artifactId>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy-multipart</artifactId>
+        </dependency-->
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-rest-client-jackson</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -87,13 +98,19 @@
             <groupId>org.kie</groupId>
             <artifactId>kogito-addons-quarkus-data-index-inmemory</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.kie</groupId>
-            <artifactId>kogito-addons-quarkus-jobs-service-embedded</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.kie</groupId>-->
+<!--            <artifactId>kogito-addons-quarkus-jobs-service-embedded</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.apache.kie.sonataflow</groupId>
             <artifactId>sonataflow-quarkus</artifactId>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.kie</groupId>-->
+<!--                    <artifactId>kogito-serverless-workflow-openapi-parser</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
         <dependency>
             <groupId>org.apache.kie.sonataflow</groupId>

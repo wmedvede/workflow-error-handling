@@ -52,3 +52,90 @@ paths:
             text/plain:
               schema:
                 type: string
+  /supplier/v2/{supplier-id}:
+    get:
+      tags:
+        - Supplier
+      operationId: getOrderV2
+      parameters:
+        - name: supplier-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResponse"
+    post:
+      tags:
+        - Supplier
+      operationId: sendOrderV2
+      parameters:
+        - name: supplier-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResponse"
+  /supplier/v3/{supplier-id}:
+    post:
+      tags:
+        - Supplier
+      operationId: sendOrderV3
+      parameters:
+        - name: supplier-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResponse"
+components:
+  schemas:
+    ActionResponse:
+      type: object
+      properties:
+        statusCode:
+          format: int32
+          type: integer
+        description:
+          type: string
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorResponse"
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        type:
+          type: string
+        code:
+          format: int32
+          type: integer

@@ -1,9 +1,9 @@
 ---
-id: order-actions
+id: order-actions3
 version: '1.0'
 specVersion: '0.8'
-name: Order Workflow
-description: Order Workflow Sample
+name: Order Workflow3
+description: Order Workflow Sample3
 start: Order Received
 errors:
   - name: Unauthorized error
@@ -13,8 +13,8 @@ functions:
   - name: printMessage
     type: custom
     operation: sysout
-  - name: sendOrder
-    operation: specs/supplier.yaml#sendOrder
+  - name: sendOrder3
+    operation: specs/supplier.yaml#sendOrderV3
     type: rest
   - name: cancelOrder
     operation: specs/supplier.yaml#cancelOrder
@@ -25,20 +25,12 @@ states:
     actions:
       - name: sendOrderRestCall
         functionRef:
-          refName: sendOrder
+          refName: sendOrder3
           arguments:
             supplier-id: .supplierId
             content: .orderId
         actionDataFilter:
           toStateData: .firstCall
-#      - name: cancelOrderRestCall
-#        functionRef:
-#          refName: cancelOrder
-#          arguments:
-#            supplier-id: .supplierId
-#            content: .orderId
-#        actionDataFilter:
-#          toStateData: .secondCall
       - name: printAction
         functionRef:
           refName: printMessage
