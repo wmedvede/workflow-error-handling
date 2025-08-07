@@ -6,6 +6,9 @@ info:
 tags:
 - name: supplier
   description: Supplier Sample
+
+servers:
+  - url: http://localhost:8080    # The "url: " prefix is required
 paths:
   /supplier/{supplier-id}:
     post:

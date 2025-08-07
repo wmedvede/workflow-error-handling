@@ -1,53 +1,50 @@
 package services;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 //@JsonInclude(Include.NON_DEFAULT)
 public final class ActionResponse {
-  private int statusCode;
-  private String description;
-  private List<ErrorResponse> errors;
+  private int actionStatusCode;
+  private String actionDescription;
+  private List<ErrorResponse> actionErrors;
 
   public ActionResponse() {
   }
 
   private ActionResponse(Builder builder) {
-    this.description = builder.description;
-    this.errors = builder.errors;
-    this.statusCode = builder.statusCode;
+    this.actionDescription = builder.description;
+    this.actionErrors = builder.errors;
+    this.actionStatusCode = builder.statusCode;
   }
 
-  public List<ErrorResponse> getErrors() {
-    return this.errors == null ? null : Collections.unmodifiableList(this.errors);
+  public List<ErrorResponse> getActionErrors() {
+    return this.actionErrors == null ? null : Collections.unmodifiableList(this.actionErrors);
   }
 
-  public String getDescription() {
-    return this.description;
+  public String getActionDescription() {
+    return this.actionDescription;
   }
 
-  public int getStatusCode() {
-    return statusCode;
+  public int getActionStatusCode() {
+    return actionStatusCode;
   }
 
-  public void setStatusCode(int statusCode) {
-    this.statusCode = statusCode;
+  public void setActionStatusCode(int actionStatusCode) {
+    this.actionStatusCode = actionStatusCode;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setActionDescription(String actionDescription) {
+    this.actionDescription = actionDescription;
   }
 
-  public void setErrors(List<ErrorResponse> errors) {
-    this.errors = errors;
+  public void setActionErrors(List<ErrorResponse> actionErrors) {
+    this.actionErrors = actionErrors;
   }
 
   public String toString() {
-    return "{statusCode=" + this.statusCode + ", description='" + this.description + '\'' + ", errors=" + this.errors + '}';
+    return "{statusCode=" + this.actionStatusCode + ", description='" + this.actionDescription + '\'' + ", errors=" + this.actionErrors + '}';
   }
 
   public static final class Builder {

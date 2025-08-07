@@ -1,5 +1,5 @@
 ---
-id: order-actions2
+id: order_actions2
 version: '1.0'
 specVersion: '0.8'
 name: Order Workflow2

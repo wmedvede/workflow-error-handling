@@ -1,5 +1,7 @@
 package services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -19,19 +21,16 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 public class Supplier {
     @POST
     @Path("{supplier-id}")
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response sendOrder(@PathParam("supplier-id") String supplierId, String orderNumber) {
         System.out.println(String.format("Supplier %s received the order %s", supplierId, orderNumber));
 
-        if ("order1".equals(orderNumber)) {
-            // order1, Makes first invocation fail with an error code 401 managed in the wokflow.
-
+        if (orderNumber.contains("order1")) {
             ActionResponse.Builder builder =
-                    ActionResponse.Builder.newBuilder(
-                                    Response.Status.UNAUTHORIZED.getStatusCode()).
-                            setDescription("You don't have permission to sendOrder: " + orderNumber).
-                            addError("Unauthenticated",
+                    ActionResponse.Builder.newBuilder(Response.Status.UNAUTHORIZED.getStatusCode())
+                            .setDescription("You don't have permission to sendOrder: " + orderNumber)
+                            .addError("Unauthenticated",
                                     "User is not authenticated",
                                     Response.Status.UNAUTHORIZED.getStatusCode());
 
@@ -40,9 +39,55 @@ public class Supplier {
                     .build();
         }
 
-        if ("order10".equals(orderNumber)) {
+        if (orderNumber.contains("order2")) {
+            ActionResponse.Builder builder =
+                    ActionResponse.Builder.newBuilder(Response.Status.ACCEPTED.getStatusCode())
+                            .setDescription("Order was sent successfully sendOrder: " + orderNumber);
+
+            return Response.status(Response.Status.ACCEPTED.getStatusCode(), "No grants to access the order")
+                    .entity(builder.build())
+                    .build();
+        }
+
+        if (orderNumber.contains("order20")) {
             // order10, Makes first invocation fail with an error code 410 NOT managed in the workflow.
             return Response.status(410, "Unable to sendOrder: " + orderNumber).build();
+        }
+        if (orderNumber.contains("order30")) {
+            // order10, Makes first invocation fail with an error code 410 NOT managed in the workflow.
+            return Response.status(410, "Unable to sendOrder: " + orderNumber).entity("{}").build();
+        }
+        if (orderNumber.contains("order40")) {
+            // order10, Makes first invocation fail with an error code 410 NOT managed in the workflow.
+
+            ActionResponse.Builder builder =
+                    ActionResponse.Builder.newBuilder(
+                                    410).
+                            setDescription("Error 410, resource is no longer available: " + orderNumber).
+                            addError("resource is no longer available",
+                                    "resource is no longer available",
+                                    410);
+
+            return Response.status(410, "resource is no longer available")
+                    .entity(builder.build())
+                    .build();
+
+        }
+
+        if (orderNumber.contains("order50")) {
+            // order10, Makes first invocation fail with an error code 410 NOT managed in the workflow.
+
+            ObjectNode entity = new ObjectMapper().createObjectNode();
+            entity.put("name", "Dart");
+            entity.put("surname", "Vader");
+            entity.putObject("address")
+                    .put("street", "Passeig de Gracia, 120")
+                    .put("city", "Barcelona")
+                    .put("country", "Spain");
+
+            return Response.status(410, "resource is no longer available")
+                    .entity(entity)
+                    .build();
         }
 
         // other order is never works good.
@@ -108,7 +153,7 @@ public class Supplier {
 
     @POST
     @Path("v2/{supplier-id}")
-    @Consumes(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "sendOrderV2")
     @APIResponse(
@@ -121,7 +166,8 @@ public class Supplier {
     public Response sendOrderV2(@PathParam("supplier-id") String supplierId, String orderNumber) {
         System.out.println(String.format("Supplier %s received the order %s", supplierId, orderNumber));
 
-        if ("order1".equals(orderNumber)) {
+//        if ("order1".equals(orderNumber)) {
+        if (orderNumber.contains("order1")) {
             // order1, Makes first invocation fail with an error code 401 managed in the wokflow.
 
             ActionResponse.Builder builder =
@@ -157,7 +203,7 @@ public class Supplier {
 
     @POST
     @Path("v3/{supplier-id}")
-    @Consumes(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "sendOrderV3")
     public ActionResponse sendOrderV3(@PathParam("supplier-id") String supplierId, String orderNumber) {
@@ -181,7 +227,7 @@ public class Supplier {
         }
 
 
-       // other order is never works good.
+        // other order is never works good.
         ActionResponse.Builder builder =
                 ActionResponse.Builder.newBuilder(
                                 Response.Status.ACCEPTED.getStatusCode()).

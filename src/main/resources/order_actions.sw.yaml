@@ -1,5 +1,5 @@
 ---
-id: order-actions
+id: order_actions
 version: '1.0'
 specVersion: '0.8'
 name: Order Workflow
@@ -16,6 +16,8 @@ functions:
   - name: sendOrder
     operation: specs/supplier.yaml#sendOrder
     type: rest
+    metadata:
+      notFailOnStatusCode : true
   - name: cancelOrder
     operation: specs/supplier.yaml#cancelOrder
     type: rest
@@ -24,6 +26,8 @@ states:
     type: operation
     actions:
       - name: sendOrderRestCall
+        metadata:
+          failOnStatusCode: false
         functionRef:
           refName: sendOrder
           arguments:
